@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <script src="posts.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>########v-text#########</h1>
+        <p v-text="message.toUpperCase()"></p>
+        <h1>#######v-once#########</h1>
+        <p v-once>{{message}}</p>
+        <h1>########v-on#########</h1>
+        <button @click="changeMessage">Click Me!</button>
+        <p>date is {{date}}</p>
+        <button @click="UpdateDate">update date</button>
+        <h1>#######v-for#########</h1>
+        <p v-for="(l,idx) in loop">{{idx}} Number: {{l}}</p>
+        <h1>#######v-if && v-model#########</h1>
+        <input type="text" v-model.number="age">
+        <p v-if="age<=15">print you are child</p>
+        <p v-else-if="age>15 && age<=50">print you are young</p>
+        <p v-else>print you are old</p>
+        <h1>#######v-show#########</h1>
+        <p v-show="show">print you are show</p>
+        <button @click="show=!show">show or hide</button>
+        <h1>#######v-html#########</h1>
+        <p v-html="html"></p>
+        <h1>#######v-bind#########</h1>
+        <img v-bind:src="imgSrc" alt="" />
+        <button @click="fixImg">fix img</button>
+        <h1>#######v-model#########</h1>
+        <input type="text" v-model="bind" placeholder="model" />
+        <input type="text" v-bind:value="bind" placeholder="bind" />
+        <p>the value is: {{bind}}</p>
+        <h1>########Global Components#########</h1>
+        <my-component v-for="post in posts" :name="post.name" :id="post._id" :key="post.id">
+        </my-component>
+        <h1>########local Components#########</h1>
+        <my-item v-for="post in posts" :name="post.name" :id="post._id" :key="post.id">
+        </my-item>
+        <h1>########Computed Property#########</h1>
+        <p>**it like a method but executed one time, on any change on the desired property</p>
+        <p>**if we used normal method any re-render to the 
+            page it will call the method every time</p>
+        <p>{{calcAge}}</p>
+        <p>{{calcAge}}</p>
+        <p>{{calcAge}}</p>
+        <h1>########Watch Property##########</h1>
+        <label for="">JOD</label>
+        <input type="text" v-model="jod">
+        <label for="">Riyal</label>
+        <input type="text" v-model="riyal">
+        <br>
+        <br>
+        <br>
+        <label for="">hour</label>
+        <input type="text" v-model="hour">
+        <label for="">minute</label>
+        <input type="text" v-model="minute">
+        <label for="">second</label>
+        <input type="text" v-model="second">
+
+
+    </div>
+    <script>
+        // Global component
+        Vue.component('my-component', { 
+            data: function () {
+                return {
+                    count: 0,
+                }
+            },
+            props:['name','id'],
+            template: `<p @click="count++">Test Component {{count}} hello {{name}}
+                 your id is {{id}}</p>`,
+        })
+
+        // Local component
+        const myItem = {
+            data: function () {
+                return {
+                    likes: 0,
+                }
+            },
+            props:['name','id'],
+            template: `<p @click="likes++">Test item {{likes}} hello {{name}}
+                 your id is {{id}}</p>`,
+        }
+
+        // Vue app
+        var app = new Vue({
+            el: '#app',
+
+            data: {
+                message: 'Hello Vue!',
+                loop: [111, 222, 333, 411, 511, 611, 711, 118, 119, 1110],
+                date: new Date(),
+                age: 60,
+                show: true,
+                html: '<span style="color:red">This is red</span>',
+                imgSrc: '',
+                bind: '',
+                posts:posts,
+                jod: 0,
+                riyal: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+            },
+
+            methods: {
+                changeMessage: function () {
+                    console.log(data)
+                    this.message = 'Hello Vue!!!!!!!!!!!!!'
+                },
+                UpdateDate: function () {
+                    this.date = new Date()
+                },
+                fixImg: function () {
+                    this.imgSrc = 'levi.jpg'
+                }
+            },
+            components: {
+                myItem: myItem,
+            },
+            computed: {
+                calcAge: function () {
+                    console.log('calcAge') //it will be executed one time
+                    return this.age * 2
+                }
+            },
+            watch: {
+                jod: function (newVal) {
+                    console.log('jod changed')
+                    this.riyal = newVal * 5
+                },
+                riyal: function (newVal) {
+                    console.log('riyal changed')
+                    this.jod = newVal / 5
+                },
+                hour: function (newVal) {
+                    console.log('hour changed')
+                    this.minute = newVal * 60
+                },
+                minute: function (newVal) {
+                    console.log('minute changed')
+                    this.hour = newVal / 60
+                    this.second = newVal * 60
+                },
+                second: function (newVal) {
+                    console.log('second changed')
+                    this.minute = newVal / 60
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
