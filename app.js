@@ -23,7 +23,7 @@ const myItem = {
 }
 
 // Vue app
-var app = new Vue({
+const app = new Vue({
     el: '#app',
 
     data: {
@@ -89,6 +89,22 @@ var app = new Vue({
         second: function (newVal) {
             console.log('second changed')
             this.minute = newVal / 60
+        }
+    }
+})
+
+const secondVue = new Vue({
+    el: '#second-vue',
+    data: {
+        message: 'Hello Second Vue!',
+        coloredMessage: '',
+    },
+    methods: {
+        changeMessage: function () {
+            app.message = 'changed by Second Vue!!'
+        },
+        getColoredMessage: function () {
+            this.coloredMessage = app.$refs.mohammad.outerHTML;
         }
     }
 })
