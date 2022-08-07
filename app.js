@@ -41,6 +41,7 @@ var app = new Vue({
         hour: 0,
         minute: 0,
         second: 0,
+        color: 'red',
     },
 
     methods: {
@@ -62,6 +63,9 @@ var app = new Vue({
         calcAge: function () {
             console.log('calcAge') //it will be executed one time
             return this.age * 2
+        },
+        newColor: function () {
+            return `color:${this.color}`
         }
     },
     watch: {
